@@ -11,6 +11,7 @@ import ThemeContext from './assets/ThemeContext'
 import myState from './assets/myState'
 import BottomNavbar from './components/misc/BottomNavbar'
 import Footer from './components/misc/Footer'
+import { Link } from './components/misc/Navbar/components'
 
 function Theme({ appbar, navbarLinks, footer, brand, children }) {
   const location = useLocation()
@@ -26,11 +27,38 @@ function Theme({ appbar, navbarLinks, footer, brand, children }) {
   function closeDrawer() {
     setDrawerOpen(false)
   }
+  
+  addEventListener('resize', () =>
+    window.innerWidth < t.breakpoints.values.md
+      ? setDrawerAnchor('top')
+      : setDrawerAnchor('left')
+  )
 
   const MyAppBar = () =>
-    appbar && <AppBar action={openDrawer} setDrawerContent={setDrawerContent} />
+    appbar && (
+      <AppBar 
+        drawer={{
+          open: drawerOpen,
+          openDrawer: openDrawer,
+          anchor: 'left',
+          width: 250,
+        }}
+        links={{
+          list:[
+            {text:'Home', href:''},
+            {text:'About', href:'about'},
+          ]
+        }}
+        avatar={{
+          items:[
+            <Link text={'Profile'} to={'profile'} />,
+            <Link text={'Settings'} to={'settings'} />
+          ]
+        }}
+      />
+    )
   const MyNavBar = () => navbarLinks && <NavBar />
-  const MyDrawer = () => <Drawer  />
+  const MyDrawer = () => <Drawer />
   const MyBottomNavbar = () => navbarLinks && <BottomNavbar />
   const MyFooter = () => footer && <Footer />
 
