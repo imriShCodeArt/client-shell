@@ -51,7 +51,7 @@ module.exports = {
       filename: 'remoteEntry.js',
       remotes: {
         components: 'components@http://localhost:4010/remoteEntry.js',
-        top_app_bar: 'top_app_bar@http://localhost:3000/remoteEntry.js',
+        top_app_bar: 'top_app_bar@http://localhost:5000/remoteEntry.js',
       },
       exposes: {
         './Theme': './src/Theme2',

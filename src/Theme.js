@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Box, CssBaseline, ThemeProvider } from '@mui/material'
+import {
+  Box,
+  CssBaseline,
+  ThemeProvider,
+  useTheme,
+} from '@mui/material'
 
 import theme from 'assets/myTheme'
-import { Routes, useLocation } from 'react-router-dom'
+import { Routes, useLocation, useNavigate } from 'react-router-dom'
 import AppBar from './components/misc/AppBar'
 import NavBar from './components/misc/Navbar/'
 import Drawer from './components/misc/Drawer'
@@ -11,54 +16,95 @@ import ThemeContext from './assets/ThemeContext'
 import myState from './assets/myState'
 import BottomNavbar from './components/misc/BottomNavbar'
 import Footer from './components/misc/Footer'
-import { Link } from './components/misc/Navbar/components'
+
+import Dashboard from '@mui/icons-material/Dashboard'
+import Info from '@mui/icons-material/Info'
+import Settings from '@mui/icons-material/Settings'
+import Logout from '@mui/icons-material/Logout'
+
+const DRAEWR_WIDTH = 250
 
 function Theme({ appbar, navbarLinks, footer, brand, children }) {
+  const navigation = useNavigate()
+  const t = useTheme()
   const location = useLocation()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [drawerAnchor, setDrawerAnchor] = useState('left')
   const [drawerContent, setDrawerContent] = useState(undefined)
+  const [drawerWidth, setDrawerWidth] = useState(DRAEWR_WIDTH)
 
-  function openDrawer(anchor, content) {
-    setDrawerAnchor(anchor)
-    content && setDrawerContent(<>{content}</>)
+  function openDrawer() {
     setDrawerOpen(true)
   }
   function closeDrawer() {
     setDrawerOpen(false)
   }
-  
-  addEventListener('resize', () =>
-    window.innerWidth < t.breakpoints.values.md
-      ? setDrawerAnchor('top')
-      : setDrawerAnchor('left')
-  )
+
+  addEventListener('resize', () => {
+    if (window.innerWidth < t.breakpoints.values.md) {
+      setDrawerAnchor('top')
+      setDrawerWidth('100vw')
+    } else {
+      setDrawerAnchor('left')
+      setDrawerWidth(DRAEWR_WIDTH)
+    }
+  })
 
   const MyAppBar = () =>
     appbar && (
-      <AppBar 
+      <AppBar
         drawer={{
           open: drawerOpen,
           openDrawer: openDrawer,
           anchor: 'left',
-          width: 250,
+          width: drawerWidth,
         }}
         links={{
-          list:[
-            {text:'Home', href:''},
-            {text:'About', href:'about'},
-          ]
+          list: [
+            { text: 'Home', href: '' },
+            { text: 'About', href: 'about' },
+          ],
         }}
-        avatar={{
-          items:[
-            <Link text={'Profile'} to={'profile'} />,
-            <Link text={'Settings'} to={'settings'} />
-          ]
+        avatar={{ size:'xl',
+          text:'D',
+          items: [
+            {
+              text: 'Profile',
+              action: () => navigation('settings/profile'),
+              icon: <Dashboard />,
+            },
+            {
+              text: 'Account',
+              action: () => navigation('settings/Account'),
+              icon: <Info />,
+            },
+            {
+              text: 'Settings',
+              action: () => navigation('settings'),
+              icon: <Settings />,
+            },
+            {
+              text: 'divider',
+            },
+            {
+              text: 'Log Out',
+              action: () => navigation('logout'),
+              icon: <Logout />,
+            },
+          ],
         }}
       />
     )
   const MyNavBar = () => navbarLinks && <NavBar />
-  const MyDrawer = () => <Drawer />
+  const MyDrawer = () => (
+    <Drawer
+      closeDrawer={closeDrawer}
+      anchor={drawerAnchor}
+      open={drawerOpen}
+      content={<>{drawerContent}</>}
+      width={drawerWidth}
+    />
+  )
   const MyBottomNavbar = () => navbarLinks && <BottomNavbar />
   const MyFooter = () => footer && <Footer />
 
@@ -67,13 +113,7 @@ function Theme({ appbar, navbarLinks, footer, brand, children }) {
       <CssBaseline />
       <ThemeContext.Provider
         value={{
-          ...myState(
-            closeDrawer,
-            drawerOpen,
-            drawerAnchor,
-            drawerContent,
-            navbarLinks
-          ),
+          ...myState(),
           location: location.pathname,
         }}
       >

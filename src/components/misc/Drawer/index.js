@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Drawer as Root, useTheme } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
@@ -10,21 +10,22 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
-import ThemeContext from 'assets/ThemeContext'
 
-function Drawer({}) {
+function Drawer({ closeDrawer, anchor, open, variant, content, width }) {
   const theme = useTheme()
-  const { closeDrawer, anchor, open, variant, content } =
-    useContext(ThemeContext).drawerData
-  console.log()
   return (
     <Root
       BackdropProps={{ sx: { bgcolor: 'transparent' } }}
+      PaperProps={{
+        sx: {
+          width: { xs: '100vw', md: `${width}px` },
+        },
+      }}
       open={open}
       anchor={window.innerWidth < theme.breakpoints.values.md ? 'top' : anchor}
       onClose={closeDrawer}
       variant={variant}
-      SlideProps={{direction:'down'}}
+      SlideProps={{ direction: 'down' }}
     >
       {content || (
         <Box width={{ xs: '100vw', md: '300px' }} pt={'5em'}>
