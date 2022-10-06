@@ -1,24 +1,27 @@
-const HtmlWebPackPlugin = require('html-webpack-plugin')
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin')
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
-const path = require('path')
-const deps = require('./package.json').dependencies
+const deps = require("./package.json").dependencies;
+const path = require("path");
+const name = require("./package.json").name;
+
+const port = 4000;
+
 module.exports = {
   output: {
-    publicPath: 'http://localhost:4000/',
+    publicPath: "http://localhost:" + port + "/",
   },
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
     alias: {
-      components: path.resolve(__dirname, './src/components'),
-      assets: path.resolve(__dirname, './src/assets'),
-      features: path.resolve(__dirname, './src/features'),
-      vars: path.resolve(__dirname, './vars'),
+      assets: path.resolve(__dirname, "./src/assets"),
+      shared: path.resolve(__dirname, "./shared"),
     },
   },
+
   devServer: {
-    port: 4000,
+    port: port,
     historyApiFallback: true,
   },
 
@@ -26,20 +29,27 @@ module.exports = {
     rules: [
       {
         test: /\.m?js/,
-        type: 'javascript/auto',
+        type: "javascript/auto",
         resolve: {
           fullySpecified: false,
         },
       },
       {
         test: /\.(css|s[ac]ss)$/i,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
+        },
+      },
+      {
+        test: /\.(png|jpg|jpeg|svg)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "file-loader",
         },
       },
     ],
@@ -47,35 +57,36 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'theme',
-      filename: 'remoteEntry.js',
+      name: name,
+      filename: "remoteEntry.js",
       remotes: {
-        components: 'components@http://localhost:4010/remoteEntry.js',
-        top_app_bar: 'top_app_bar@http://localhost:5000/remoteEntry.js',
+        components: "components@http://localhost:4001/remoteEntry.js",
       },
-      exposes: {
-        './Theme': './src/Theme2',
-        './Column': './src/components/shared/Column',
-        './Section': './src/components/shared/Section'
-      },
+      exposes: {},
       shared: {
         ...deps,
         react: {
           singleton: true,
           requiredVersion: deps.react,
         },
-        'react-dom': {
+        "react-dom": {
           singleton: true,
-          requiredVersion: deps['react-dom'],
+          requiredVersion: deps["react-dom"],
         },
-        '@emotion/react': {
+        "@emotion/react": {
           singleton: true,
-          requiredVersion: deps['@emotion/react'],
+          requiredVersion: deps["@emotion/react"],
         },
       },
     }),
     new HtmlWebPackPlugin({
-      template: './src/index.html',
+      template: "./src/index.html",
+      title: name,
+      favicon: "./src/assets/favicon.ico",
     }),
   ],
-}
+
+  optimization: {
+    runtimeChunk: "single",
+  },
+};

@@ -1,64 +1,25 @@
-import Dashboard from '@mui/icons-material/Dashboard'
-import Info from '@mui/icons-material/Info'
-import Logout from '@mui/icons-material/Logout'
-import Settings from '@mui/icons-material/Settings'
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Route, useNavigate } from 'react-router-dom'
+import React from "react";
+import { hot } from "react-hot-loader/root";
 
-import './index.css'
-import Theme from './Theme'
+import WebLayout from 'shared/layout/Web'
 
-const ImpAvatar = React.lazy(() => import('components/Avatar'))
-const Avatar = ({ ...props }) => (
-  <React.Suspense fallback={<div />}>
-    <ImpAvatar {...props} />
-  </React.Suspense>
-)
+//  ******* clears console after each code update ******
+window.addEventListener("message", function onWebpackMessage(e) {
+  console.clear();
+});
+//  *****************************************************
 
 const App = () => {
-  const navigation = useNavigate()
-  const items = [
-    {
-      text: 'Profile',
-      action: () => navigation('settings/profile'),
-      icon: <Dashboard />,
-    },
-    {
-      text: 'Account',
-      action: () => navigation('settings/Account'),
-      icon: <Info />,
-    },
-    {
-      text: 'Settings',
-      action: () => navigation('settings'),
-      icon: <Settings />,
-    },
-    {
-      text: 'divider',
-    },
-    {
-      text: 'Log Out',
-      action: () => navigation('logout'),
-      icon: <Logout />,
-    },
-  ]
   return (
-    <Theme appbar={{}}>
-      <Route
-        path={'*'}
-        element={
-          <>
-            <Avatar items={items} text='F' />
-          </>
-        }
-      />
-    </Theme>
-  )
-}
-const root = ReactDOM.createRoot(document.getElementById('app'))
-root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-)
+    <WebLayout>
+      <div className='container'>
+        <div>Name: App</div>
+        <div>Framework: react</div>
+        <div>Language: JavaScript</div>
+        <div>CSS: Empty CSS</div>
+      </div>
+    </WebLayout>
+  );
+};
+
+export default hot(App);
