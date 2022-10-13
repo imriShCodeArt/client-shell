@@ -1,7 +1,8 @@
-import React from 'react'
+import React from "react";
 import { defineMessages } from "react-intl";
 
 const messages = defineMessages({
+  expand: " Expand",
   app_name: "React Most Wanted",
   sign_in: "Sign in",
   sign_in_title: "Login Here",
@@ -64,7 +65,7 @@ const messages = defineMessages({
   delete_account_dialog_message:
     "Your account will be deleted and you will lose all your data!",
   delete_account_dialog_action: "Delete account",
-  notifications: 'Notifications'
+  notifications: "Notifications",
 });
 
 export default messages;

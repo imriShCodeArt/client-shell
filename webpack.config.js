@@ -61,6 +61,7 @@ module.exports = {
       filename: "remoteEntry.js",
       remotes: {
         components: "components@http://localhost:4001/remoteEntry.js",
+        cards: "cards@http://localhost:4002/remoteEntry.js",
       },
       exposes: {},
       shared: {
@@ -76,6 +77,10 @@ module.exports = {
         "@emotion/react": {
           singleton: true,
           requiredVersion: deps["@emotion/react"],
+        },
+        "react-intl": {
+          singleton: true,
+          requiredVersion: deps["react-intl"],
         },
       },
     }),
