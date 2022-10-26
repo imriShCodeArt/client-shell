@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import loadable from "@loadable/component";
 
@@ -17,7 +17,8 @@ import DialogContext from "providers/Dialog";
 import DrawerContext from "providers/Drawer";
 import NotificationsContext from "providers/Notifications";
 import MessegesContext from "providers/Messeges";
-import UserContext from "providers/User/User";
+import UserContext from "providers/User";
+// import CommentsContext from "providers/Comments";  //SHOULD BE CREATED?
 
 const WebLayout = ({ initialState, children, ...props }) => {
   return (

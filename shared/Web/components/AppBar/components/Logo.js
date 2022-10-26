@@ -12,14 +12,17 @@ const Logo = ({ alt = "Logo", title }) => {
   const { logo, pages } = theme;
 
   return (
-    <Box>
+    <Box title={title}>
       <Button sx={{ p: 0 }} disableRipple onClick={() => navigate(pages["home"].slug)}>
-        <img style={{}} width={"60px"} src={logo} />
+        <img width={"60px"} src={logo} alt={alt} />
       </Button>
     </Box>
   );
 };
 
-Logo.propTypes = {};
+Logo.propTypes = {
+  alt: PropTypes.string,
+  title: PropTypes.string,
+};
 
 export default Logo;

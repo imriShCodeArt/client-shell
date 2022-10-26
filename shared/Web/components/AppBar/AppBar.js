@@ -22,6 +22,7 @@ const AppBar = ({
   children,
 }) => {
   const theme = useThemeContext();
+  const { logo, links } = theme || {};
   return (
     <Root elevation={elevation} position='static'>
       <Toolbar>
@@ -29,7 +30,7 @@ const AppBar = ({
         {useMenuBtn && !disableDivider && (
           <Divider sx={{ mx: "1em" }} variant='middle' orientation='vertical' flexItem />
         )}
-        {useLogo && <Logo />}
+        {useLogo && logo && <Logo />}
         <Box flexGrow={1}>{children}</Box>
         {useAvatar !== undefined && <Avatar />}
       </Toolbar>

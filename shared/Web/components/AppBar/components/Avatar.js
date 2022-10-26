@@ -42,7 +42,8 @@ const Avatar = (props) => {
     setContent: setDialogContent,
   } = dialog || {};
 
-  const { profileImgUrl, fName, lName, email, options, setUser, clearUser } = user || {};
+  const { profileImgUrl, fName, lName, email, password, options, setUser, clearUser } =
+    user || {};
 
   function handleOpenDrawer() {
     email !== undefined &&
@@ -54,7 +55,9 @@ const Avatar = (props) => {
                 <Typography variant='caption'>Hello {fName}!:</Typography>
                 <Typography variant='h6'>Account:</Typography>
               </div>
-              <Root title={`${email}`} src={profileImgUrl}>{fName[0]}</Root>
+              <Root title={`${email}`} src={profileImgUrl}>
+                {fName[0]}
+              </Root>
             </Toolbar>
           </AppBar>
           {email &&
@@ -92,8 +95,12 @@ const Avatar = (props) => {
       onClick={() => {
         setDialogContent(
           <SignIn
-            onSubmit={() => {
-              setUser(JSON.parse(window.localStorage.getItem("signin"))) && closeDialog();
+            onSubmit={(e) => {
+              const u = JSON.parse(window.localStorage.getItem("user"));
+              u.password === e.password &&
+                u.email === e.email &&
+                setUser(JSON.parse(window.localStorage.getItem("user"))) &&
+                closeDialog();
             }}
           />
         );

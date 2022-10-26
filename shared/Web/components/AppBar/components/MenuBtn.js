@@ -50,7 +50,6 @@ const MenuBtn = (props) => {
         </AppBar>
         {Object.keys(pages).map((p, i) => {
           const { slug, title: text, icon } = pages[p] || {};
-          console.log(p)
           return (
             <ListItem key={i} onClick={() => navigate(slug)}>
               {text && <ListItemText  >{text}</ListItemText>}

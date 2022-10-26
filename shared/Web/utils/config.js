@@ -2,11 +2,11 @@ import React from "react";
 
 import logo from "assets/logo.svg";
 
-import HomeIcon from "@mui/icons-material/Home";
-import AboutIcon from "@mui/icons-material/Info";
-import ContactIcon from "@mui/icons-material/ContactPage";
-import GalleryIcon from "@mui/icons-material/PictureInPictureAltSharp";
-import BlogIcon from "@mui/icons-material/Article";
+import HomeIcon from "@mui/icons-material/HomeOutlined";
+import AboutIcon from "@mui/icons-material/InfoOutlined";
+import ContactIcon from "@mui/icons-material/ContactPageOutlined";
+import GalleryIcon from "@mui/icons-material/PictureInPictureAltOutlined";
+import BlogIcon from "@mui/icons-material/ArticleOutlined";
 
 const staticPages = {
   home: {
@@ -41,67 +41,90 @@ const staticPages = {
   },
 };
 
-const dynamicPages = {
-  account: {
-    id: 5,
-    slug: "/account",
-    title: "Account",
-  },
-  settings: {
-    id: 6,
-    slug: "/settings",
-    title: "Settings",
-  },
-  cart: {
-    id: 7,
-    slug: "/cart",
-    title: "Cart",
-  },
-  checkout: {
-    id: 8,
-    slug: "/checkout",
-    title: "Checkout",
-  },
-  logout: {
-    id: 9,
-    slug: "/logout",
-    title: "Logout",
-  },
+const types = {
+  HOME: "HOME",
+  PAGE: "PAGE",
+  CATEGORY: "CATEGORY",
+  GALLERY: "GALLERY",
+  PRODUCT: "PRODUCT",
+  POST: "POST",
 };
 
-const pagesMapDraft = [
+let pageCounter = 0;
+const page = ({ title, slug, icon }) => {
+  pageCounter += 1;
+  return {
+    id: pageCounter,
+    title,
+    slug,
+    icon,
+  };
+};
+let postCounter = 0;
+const post = ({
+  title,
+  subTitle,
+  abstract,
+  author,
+  categories,
+  slug,
+  date,
+  featureImg,
+}) => {
+  postCounter += 1;
+  return {
+    id: postCounter,
+    title,
+    slug,
+    subTitle,
+    abstract,
+    author,
+    categories,
+    date,
+    featureImg,
+  };
+};
+
+const category = ({ title, slug, parent }) => ({
+  title,
+  slug,
+  parent,
+});
+
+const siteMapDraft = [
   {
-    slug: ":pages",
-    sidebar: false,
-    elm: <div />,
+    id: 1,
+    type: types.HOME,
+    ...page({ title: "Home", slug: "", icon: <HomeIcon /> }),
   },
   {
-    slug: "about",
-    title: "About",
-    elm: <div />,
+    id: 2,
+    type: types.PAGE,
+    ...page({ title: "About", slug: "about", icon: <AboutIcon /> }),
   },
   {
-    slug: "contact",
-    sidebar: false,
-    elm: <div />,
+    id: 3,
+    type: types.PAGE,
+    ...page({ title: "Blog", slug: "blog", icon: <BlogIcon /> }),
+  },
+  {
+    id: 4,
+    type: types.PAGE,
+    ...page({ title: "Contact", slug: "contact", icon: <ContactIcon /> }),
+  },
+  {
+    id: 5,
+    type: types.CATEGORY,
+    ...page({ title: "Contact", slug: "contact", icon: <ContactIcon /> }),
   },
 ];
 
-const appbar = () => {
-  const avatar = {
-    options: [{ id: dynamicPages["account"].id }, { id: dynamicPages["settings"].id }],
-    options2: [{ id: dynamicPages["logout"].id }],
-  };
-  const links = Object.keys(staticPages).map((k) => k);
-
-  return { avatar, links };
-};
-
 const config = {
   pages: staticPages,
-  appbar: appbar(),
-  logo: logo,
-  menus: {
+  appbar: {
+    links: [{}],
   },
+  logo: logo,
+  menus: {},
 };
 export default config;

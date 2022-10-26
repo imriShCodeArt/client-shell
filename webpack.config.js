@@ -17,6 +17,7 @@ module.exports = {
     alias: {
       assets: path.resolve(__dirname, "./src/assets"),
       shared: path.resolve(__dirname, "./shared"),
+      providers: path.resolve(__dirname, "./providers"),
     },
   },
 
@@ -46,7 +47,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpg|jpeg|svg)$/,
+        test: /\.(png|jpg|jpeg|svg|webp)$/,
         exclude: /node_modules/,
         use: {
           loader: "file-loader",

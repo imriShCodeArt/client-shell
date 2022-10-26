@@ -1,7 +1,7 @@
 import React from "react";
 import { hot } from "react-hot-loader/root";
 
-import WebLayout from "shared/layout/Web";
+import WebLayout from "shared/Web";
 
 import AccountIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
