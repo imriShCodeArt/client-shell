@@ -6,6 +6,7 @@ import WebLayout from "shared/Web";
 import AccountIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 
+
 //  ******* clears console after each code update ******
 window.addEventListener("message", function onWebpackMessage(e) {
   console.clear();
@@ -21,8 +22,8 @@ window.localStorage.setItem("user", JSON.stringify({
   fName: "John",
   lName: "Snow",
 }));
-
 const App = () => {
+  console.log()
   return (
     <WebLayout>
       <div className='container'>
