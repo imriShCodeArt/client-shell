@@ -3,9 +3,9 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 
 const deps = require("./package.json").dependencies;
 const path = require("path");
-const name = require("./package.json").name;
+const name = process.env.APP_NAME_CLIENT_SHELL || require("./package.json").name;
 
-const port = 4000;
+const port = process.env.PORT_CLIENT_SHELL || 4000;
 
 module.exports = {
   output: {
